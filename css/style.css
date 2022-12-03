@@ -16,6 +16,13 @@ body {
     width: 100%;
     display: flex;
     position: absolute;
+    background-size: contain;
+    background-attachment: fixed;
+    bottom: 0px;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    animation: fadeIn 0.75s;
     background-image: linear-gradient(rgba(0, 0, 0, 0.30) 0%, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.60));
 }
 
@@ -34,17 +41,19 @@ body {
 }
 
 #header-logo {
-    width: 20%;
+    width: 240px;
     padding: 1%;
     position: absolute;
+    margin-top: 6px;
+    margin-left: 10px;
     left: 1%;
 }
 
 #pr-pl-btn {
     height: 45px;
     padding: 0;
-    margin-top: 15px;
-    margin-right: 20px;
+    margin-top: 8px;
+    margin-right: 18px;
     align-items: center;
     justify-content: center;
     display: flex;
@@ -58,7 +67,7 @@ body {
 }
 
 #header-title {
-    margin-top: 12%;
+    margin-top: 15%;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -100,11 +109,164 @@ body {
 }
 
 .android {
-    height: 61px;
+    height: 62px;
     margin: 10px;
 }
 
 .apple {
     height: 62px;
     margin: 10px;
+}
+
+@media screen and (max-width: 838px) {
+
+    #pr-pl-btn {
+        margin-top: 7px;
+        margin-right: 14px;
+        font-size: 15px;
+    }
+
+    #header-title {
+        width: 60%;
+        margin-top: 20%;
+    }
+
+    #title {
+        font-size: 2.985rem;
+    }
+    
+    #subtitle {
+        font-size: 1.35rem;
+    }
+    
+    .android {
+        height: 56px;
+    }
+    
+    .apple {
+        height: 56px;
+    }
+
+}
+
+@media screen and (max-width: 667px) {
+
+    #pr-pl-btn {
+        margin-top: 6px;
+        margin-right: 10px;
+        font-size: 15px;
+    }
+
+    #header-title {
+        width: 65%;
+        margin-top: 20%;
+    }
+
+    #header-logo {
+        width: 35%;
+        margin-top: 5px;
+        margin-left: 9px;
+    }
+
+    #title {
+        font-size: 2.585rem;
+    }
+    
+    #subtitle {
+        font-size: 0.986rem;
+    }
+    
+    .android {
+        height: 48px;
+    }
+    
+    .apple {
+        height: 48px;
+    }
+
+}
+
+@media screen and (max-width: 534px) {
+
+    #pr-pl-btn {
+        margin-top: 5px;
+        margin-right: 8px;
+        font-size: 15px;
+    }
+
+    #header-title {
+        width: 65%;
+        margin-top: 20%;
+    }
+
+    #header-logo {
+        width: 35%;
+        margin-top: 4px;
+        margin-left: 8px;
+    }
+
+    #title {
+        font-size: 2.396rem;
+    }
+    
+    #subtitle {
+        font-size: 0.986rem;
+    }
+    
+    .android {
+        height: 42px;
+    }
+    
+    .apple {
+        height: 42px;
+    }
+
+}
+
+
+@media screen and (max-width: 470px) {
+
+    #pr-pl-btn {
+        margin-top: 4px;
+        margin-right: 14px;
+        font-size: 15px;
+    }
+
+    #header-title {
+        width: 65%;
+        margin-top: 20%;
+    }
+
+    #header-logo {
+        width: 35%;
+        margin-top: 3px;
+        margin-left: 5px;
+    }
+
+    #title {
+        font-size: 2.396rem;
+    }
+    
+    #subtitle {
+        font-size: 0.986rem;
+    }
+    
+    .android {
+        height: 36px;
+    }
+    
+    .apple {
+        height: 36px;
+    }
+
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
