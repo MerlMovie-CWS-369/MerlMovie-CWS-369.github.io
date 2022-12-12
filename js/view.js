@@ -124,7 +124,7 @@ function createRelatedItem(map = {}) {
     const item = document.createElement("a");
     const itemType = getType(map['link']);
     const [p, s] = map["released"].split("(");
-    item.href = `./view.html?t=${itemType}&i=${map["post_id"]}&f=${fromClient}`;
+    item.href = `./view?t=${itemType}&i=${map["post_id"]}&f=${fromClient}`;
     item.innerHTML += `<div id="related-item">
         <img id="related-poster-img" src="${map["thumbnail"]}" alt="">
         <div id="related-title-info">
