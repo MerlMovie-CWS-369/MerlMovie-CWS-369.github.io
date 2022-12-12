@@ -101,7 +101,12 @@ function decodeClientToServerName(client = "") {
     const [prefix, suffix] = client.split("-");
     temp += prefix.replace(prefix[0], prefix[0].toUpperCase());
     for (var i = 0; i < suffix.length; i++) {
-        temp += alphabetsToNumbers[suffix[i]];
+        if (alphabetsToNumbers[suffix[i]] != undefined) {
+            temp += alphabetsToNumbers[suffix[i]];
+        } else {
+            temp = "invalid";
+            break;
+        }
     }
     return temp;
 }

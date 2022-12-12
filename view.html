@@ -11,36 +11,52 @@
     <title id="title-movie">Loading...</title>
 </head>
 
-<body id="body">
-    <div id="linear-shadow"></div>
+<body>
 
-    <header id="header-id">
-        <div id="header-row">
-            <img src="./img/logo.png" id="header-logo">
-            <h id="title-bar">Install App to watch full movies, TV series, & anime</h>
-            <h id="install-btn">Install Now</h>
-        </div>
-        <div id="header-container">
-            <div id="self-item">
-                <iframe id="yt-player" src="" title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-                <div id="self-info">
-                    
-                </div>
-            </div>
-            <div id="related-container">
-                <div id="related-like">
+    <div id="bg-page">
+        <img id="bg-img" src="" alt="">
+    </div>
 
+    <div id="body-container">
+        <div id="self-info">
+            <iframe id="yt-player" src="" frameborder="0" allowfullscreen></iframe>
+            <div id="poster-info">
+                <img id="poster-img" src="" alt="">
+                <div id="poster-title-info">
+                    <p id="poster-title"></p>
+                    <p id="header-info-text"></p>
+                    <p id="header-info-text1"></p>
                 </div>
-                <div id="related-trending">
-
-                </div>
+                <p id="story-info-text"></p>
             </div>
         </div>
-    </header>
+        <div id="related-container">
+            <div id="related-options">
+                <button id="yml-option">You May Like</button>
+                <button id="trd-option">Trending</button>
+            </div>
+            <div id="related-list"></div>
+        </div>
+    </div>
 
+    <nav id="navbar">
+        <img src="./img/logo.png" alt="" , id="nav-logo">
+        <div id="nav-title-btn">
+            <h3>Install App to watch full movies, TV series, & anime</h3>
+            <button id="install-btn">Install Now</button>
+        </div>
+    </nav>
+
+    <div id="loading">
+        <div class="loading-lds"><div></div><div></div><div></div></div>
+    </div>
+
+    <div id="error">
+        <div id="error-bad-request">
+            <img src="https://visualpharm.com/assets/159/Sad%20Cloud-595b40b85ba036ed117daf84.svg" alt="">
+            <p>You've sent a bad request!</p>
+        </div>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>

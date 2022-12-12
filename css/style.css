@@ -52,7 +52,7 @@ body {
 #pr-pl-btn {
     height: 45px;
     padding: 0;
-    margin-top: 8px;
+    margin-top: 2px;
     margin-right: 18px;
     align-items: center;
     justify-content: center;
@@ -67,7 +67,7 @@ body {
 }
 
 #header-title {
-    margin-top: 15%;
+    margin-top: 12%;
     width: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -93,35 +93,29 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-#store-btns {
+#install-now-btn {
+    height: 45px;
+    color: white;
+    border-color: transparent;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0px 38px;
+    transition: 0.2s;
+    background-color: #e50915;
+    margin: 24px auto;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: fit-content;
-    margin-top: 20px;
 }
 
-.app-icons {
-    display: flex;
-    align-items: center;
-    width: fit-content;
-    max-width: fit-content;
-}
-
-.android {
-    height: 62px;
-    margin: 10px;
-}
-
-.apple {
-    height: 62px;
-    margin: 10px;
+#install-now-btn:hover {
+    transform: scale(1.05);
 }
 
 @media screen and (max-width: 838px) {
 
     #pr-pl-btn {
-        margin-top: 7px;
+        margin-top: 2px;
         margin-right: 14px;
         font-size: 15px;
     }
@@ -138,21 +132,13 @@ body {
     #subtitle {
         font-size: 1.35rem;
     }
-    
-    .android {
-        height: 56px;
-    }
-    
-    .apple {
-        height: 56px;
-    }
 
 }
 
 @media screen and (max-width: 667px) {
 
     #pr-pl-btn {
-        margin-top: 6px;
+        margin-top: 1px;
         margin-right: 10px;
         font-size: 15px;
     }
@@ -175,13 +161,10 @@ body {
     #subtitle {
         font-size: 0.986rem;
     }
-    
-    .android {
-        height: 48px;
-    }
-    
-    .apple {
-        height: 48px;
+
+    #install-now-btn {
+        height: 40px;
+        font-size: 16px;
     }
 
 }
@@ -189,7 +172,7 @@ body {
 @media screen and (max-width: 534px) {
 
     #pr-pl-btn {
-        margin-top: 5px;
+        margin-top: 1px;
         margin-right: 8px;
         font-size: 15px;
     }
@@ -212,14 +195,6 @@ body {
     #subtitle {
         font-size: 0.986rem;
     }
-    
-    .android {
-        height: 42px;
-    }
-    
-    .apple {
-        height: 42px;
-    }
 
 }
 
@@ -227,7 +202,7 @@ body {
 @media screen and (max-width: 470px) {
 
     #pr-pl-btn {
-        margin-top: 4px;
+        margin-top: 1px;
         margin-right: 14px;
         font-size: 15px;
     }
@@ -249,14 +224,6 @@ body {
     
     #subtitle {
         font-size: 0.986rem;
-    }
-    
-    .android {
-        height: 36px;
-    }
-    
-    .apple {
-        height: 36px;
     }
 
 }
