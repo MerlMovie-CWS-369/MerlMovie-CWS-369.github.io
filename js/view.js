@@ -1,9 +1,24 @@
-import { Utils } from "./utils.js";
-import { Method } from "./method.js";
+import { Utils } from "./services/utils.js";
+import { Method } from "./services/method.js";
+import { Config } from "./firebase/config.js";
+import { FirebaseApp } from "./firebase/firebase-app.js";
+import { FirebaseAuth } from "./firebase/firebase-auth.js";
+import { Call, FirebaseFirestore } from "./firebase/firebase-firestore.js";
 
+let app;
 let DATA;
+let CLIENT;
+let DEVICEID;
 
-document.getElementById("install-btn").onclick = Utils.installNow;
+var canReward = false;
+
+const installbtn = document.getElementById("install-btn");
+installbtn.onclick = () => {
+    Utils.installNow();
+    if (canReward) {
+        giftRewardToClient();
+    }
+};
 document.getElementById("nav-logo").onclick = () => {
     window.open('./', '_self');
 };
@@ -19,6 +34,7 @@ window.addEventListener("scroll", function () {
 });
 
 const titlePage = document.getElementById("title-movie");
+const ytBanner = document.getElementById("yt-banner");
 const youtubeFrame = document.getElementById("yt-player");
 const postImage = document.getElementById("poster-img");
 const posterTitle = document.getElementById("poster-title");
@@ -56,58 +72,160 @@ function initialize() {
         errorStatus.style.display = "flex";
         loadingBar.style.display = "none";
     } else {
-        Method.serverLogin(client).then((token) => {
-            if (token != null) {
-                Method.requestMovie(token, type, postId).then((result) => {
-                    if (result != null) {
-                        DATA = result;
-                        document.getElementById("bg-img").src = result['banner'];
-                        titlePage.innerText = `MerlMovie | ${result["post_title"]}`;
-                        youtubeFrame.src = Utils.getYoutubeEmbed(result["trailer"]) + "?autoplay=1";
-                        postImage.src = result['thumbnail'];
-                        posterTitle.innerText = result["post_title"];
-                        const [p, s] = result["released"].split("(");
-                        if (type == "anime") {
-                            headerInfoText.innerText = `Score: ${result["rating"]} | ${p}`;
-                        } else {
-                            headerInfoText.innerText = `Rate: ${result["rating"]}/10 | ${p}`;
-                        }
-                        headerInfoText1.innerText = `Runtime: ${result["runtime"] != null ? result["runtime"] : "N/A"} | ${result["year"].substring(0, 4)} | ${result["language"]}`;
-                        storyInfoText.innerText = result["story"];
-
-                        createRelatedList(result["related_posts"]);
-                        loadingBar.style.display = "none";
-                        bodyContainer.style.display = "inline-block";
-                        bgPage.style.display = "block";
+        app = FirebaseApp.initializeApp(Config.FirebaseConfiguration);
+        const auth = FirebaseAuth.getAuth(app);
+        FirebaseAuth.onAuthStateChanged(auth, async (user) => {
+            if (user != null) {
+                canReward = await checkcanrewardcoins(app, client);
+                if (canReward) {
+                    installbtn.style.backgroundColor = "#e50915";
+                }
+                checkAndRequestMovieForClient(client);
+            } else {
+                const email = `${client.toLowerCase()}@merl.cloud`;
+                const password = `@${client}`
+                FirebaseAuth.signInWithEmailAndPassword(auth, email, password).then(async (signInResult) => {
+                    canReward = await checkcanrewardcoins(app, client);
+                    if (canReward) {
+                        installbtn.style.backgroundColor = "#e50915";
+                    }
+                    checkAndRequestMovieForClient(client);
+                }).catch((e) => {
+                    if (e.code == "auth/user-not-found") {
+                        FirebaseAuth.createUserWithEmailAndPassword(auth, email, password).then(async (createResult) => {
+                            canReward = await checkcanrewardcoins(app, client);
+                            if (canReward) {
+                                installbtn.style.backgroundColor = "#e50915";
+                            }
+                            checkAndRequestMovieForClient(client);
+                        }).catch((x) => {
+                            alert("Error something went wrong!");
+                        });
                     } else {
-                        errorStatus.style.display = "flex";
-                        loadingBar.style.display = "none";
+                        alert('Server error please try again!');
                     }
                 });
-            } else {
-                errorStatus.style.display = "flex";
-                loadingBar.style.display = "none";
             }
         });
     }
 }
 
-ymlOPtion.onclick = () => {
+async function checkcanrewardcoins(app, client) {
+    const deviceId = await getDeviceId();
+    if (deviceId != null) {
+        const db = FirebaseFirestore.getFirestore(app);
+        const col = FirebaseFirestore.collection(db, "users");
+        const res = await Call.getDocWhere(col, "server_name", "==", client);
+        if (res != null) {
+            CLIENT = res;
+            const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
+            const res2 = await Call.getDocWhere(col2, "id", "==", deviceId);
+            if (res2 == null) {
+                DEVICEID = deviceId;
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+
+async function giftRewardToClient() {
+    const db = FirebaseFirestore.getFirestore(app);
+    const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
+    const d = FirebaseFirestore.doc(db, "users", CLIENT["id"]);
+    await FirebaseFirestore.addDoc(col2, { "from_id": DEVICEID });
+    await FirebaseFirestore.updateDoc(d, {coins: CLIENT["coins"] += 5});
+    canReward = false;
+    await Method.pushNotification(CLIENT["id"], `Congratulation ${CLIENT['username']}! 🎉🎈`, "5 coins have been added to your account from a link you shared. Let's watch somethings!");
+    return;
+}
+
+async function getDeviceId() {
+    const DEVICE_ID = "device_id";
+    const localid = localStorage.getItem(DEVICE_ID);
+    if (localid != null) {
+        return localid;
+    } else {
+        const device = await navigator.mediaDevices.enumerateDevices();
+        if (device[2].deviceId != "") {
+            const id = device[2].deviceId;
+            localStorage.setItem(DEVICE_ID, id);
+            return id;
+        } else {
+            return null;
+        }
+    }
+}
+
+function checkAndRequestMovieForClient(client) {
+    Method.serverLogin(client).then((token) => {
+        if (token != null) {
+            Method.requestMovie(token, type, postId).then((result) => {
+                if (result != null) {
+                    DATA = result;
+                    document.getElementById("bg-img").src = result['banner'];
+                    titlePage.innerText = `MerlMovie | ${result["post_title"]}`;
+                    ytBanner.src = result["banner"];
+                    const youtubeEmbed = Utils.getYoutubeEmbed(result["trailer"]);
+                    if (youtubeEmbed != "error") {
+                        youtubeFrame.src = youtubeEmbed + "?autoplay=1";
+                    } else {
+                        youtubeFrame.style.display = "none";
+                        ytBanner.style.display = "flex";
+                    }
+
+                    postImage.src = result['thumbnail'];
+                    posterTitle.innerText = result["post_title"];
+                    const [p, s] = result["released"].split("(");
+                    if (type == "anime") {
+                        headerInfoText.innerText = `Score: ${result["rating"]} | ${p}`;
+                    } else {
+                        headerInfoText.innerText = `Rate: ${result["rating"]}/10 | ${p}`;
+                    }
+                    headerInfoText1.innerText = `Runtime: ${result["runtime"] != null ? result["runtime"] : "N/A"} | ${result["year"].substring(0, 4)} | ${result["language"]}`;
+                    storyInfoText.innerText = result["story"];
+
+                    createRelatedList(result["related_posts"]);
+                    loadingBar.style.display = "none";
+                    bodyContainer.style.display = "inline-block";
+                    bgPage.style.display = "block";
+                } else {
+                    errorStatus.style.display = "flex";
+                    loadingBar.style.display = "none";
+                }
+            });
+        } else {
+            errorStatus.style.display = "flex";
+            loadingBar.style.display = "none";
+        }
+    });
+}
+
+ymlOPtion.onclick = async () => {
+    document.body.style.height = "1000vh";
     relatedList.innerHTML = "";
     relatedList.style.display = "none";
     ymlOPtion.style.backgroundColor = "red";
     trdOption.style.backgroundColor = "#303030";
-    createRelatedList(DATA["related_posts"]);
+    await createRelatedList(DATA["related_posts"]);
     relatedList.style.display = "block";
+    document.body.style.height = "fit-content";
 }
 
-trdOption.onclick = () => {
+trdOption.onclick = async () => {
+    document.body.style.height = "1000vh";
     relatedList.innerHTML = "";
     relatedList.style.display = "none";
     ymlOPtion.style.backgroundColor = "#303030";
     trdOption.style.backgroundColor = "red";
-    createRelatedList(DATA["tranding_posts"]);
+    await createRelatedList(DATA["tranding_posts"]);
     relatedList.style.display = "block";
+    document.body.style.height = "fit-content";
 }
 
 const timer = ms => new Promise(res => setTimeout(res, ms));

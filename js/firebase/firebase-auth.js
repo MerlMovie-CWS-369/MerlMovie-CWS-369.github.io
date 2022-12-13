@@ -1,0 +1,31 @@
+import {
+    FacebookAuthProvider,
+    GoogleAuthProvider,
+    getAuth,
+    setPersistence,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signInWithRedirect,
+    signInWithPhoneNumber,
+    browserSessionPersistence,
+    onAuthStateChanged,
+    RecaptchaVerifier,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+  
+  export const FirebaseAuth = {
+    getAuth,
+    onAuthStateChanged,
+    setPersistence,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signInWithRedirect,
+    signInWithPhoneNumber,
+    browserSessionPersistence,
+    FacebookAuthProvider,
+    GoogleAuthProvider,
+    RecaptchaVerifier,
+    signOut,
+  };

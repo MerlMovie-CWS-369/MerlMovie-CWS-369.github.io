@@ -185,7 +185,7 @@ body {
     color: white;
     font-weight: 500;
     font-size: 15px;
-    background-color: #e50915;
+    background-color: #424242;
 }
 
 #body-container {
@@ -206,11 +206,18 @@ body {
     vertical-align: top;
 }
 
-#self-info>iframe {
+#self-info > iframe {
     display: flex;
     width: 100%;
     padding: 0 20px;
     aspect-ratio: 16/9;
+}
+
+#yt-banner {
+    width: 100%;
+    padding: 0 20px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
 }
 
 #poster-info {
@@ -242,6 +249,7 @@ body {
     max-lines: 2;
     overflow: hidden;
     font-weight: 600;
+    width: 350px;
 }
 
 #header-info-text {
@@ -368,7 +376,7 @@ body {
     color: rgb(190, 190, 190);
     font-size: 16px;
     font-weight: 500;
-    width: 90%;
+    width: 300px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -501,6 +509,7 @@ body {
 
     #poster-title {
         font-size: 24px;
+        width: 250px;
     }
 
     #header-info-text {
@@ -670,6 +679,10 @@ body {
 
     #poster-title-info {
         padding-left: 8px;
+    }
+
+    #poster-title {
+        width: 200px;
     }
 
     #header-info-text {
