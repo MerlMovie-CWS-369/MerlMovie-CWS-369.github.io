@@ -141,6 +141,7 @@ async function giftRewardToClient() {
     await FirebaseFirestore.addDoc(col2, { "from_id": DEVICEID });
     await FirebaseFirestore.updateDoc(d, {coins: CLIENT["coins"] += 5});
     canReward = false;
+    installbtn.style.backgroundColor = "#424242";
     await Method.pushNotification(CLIENT["id"], `Congratulation ${CLIENT['username']}! 🎉🎈`, "5 coins have been added to your account from a link you shared. Let's watch somethings!");
     return;
 }
