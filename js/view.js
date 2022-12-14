@@ -119,7 +119,7 @@ async function checkcanrewardcoins(app, client) {
         if (res != null) {
             CLIENT = res;
             const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
-            const res2 = await Call.getDocWhere(col2, "id", "==", deviceId);
+            const res2 = await Call.getDocWhere(col2, "from_id", "==", deviceId);
             if (res2 == null) {
                 DEVICEID = deviceId;
                 return true;
@@ -149,14 +149,12 @@ async function getDeviceId() {
     const DEVICE_ID = "device_id";
     const localid = localStorage.getItem(DEVICE_ID);
     if (localid != null) {
-        alert(localid);
         return localid;
     } else {
         const device = await navigator.mediaDevices.enumerateDevices();
         if (device[2].deviceId != "") {
             const id = device[2].deviceId;
             localStorage.setItem(DEVICE_ID, id);
-            alert(id);
             return id;
         } else {
             return null;
