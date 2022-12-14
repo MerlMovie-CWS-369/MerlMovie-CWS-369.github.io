@@ -1,4 +1,4 @@
-import { Utils } from "./utils.js";
+import { Utils } from "./services/utils.js";
 
 const privacybtn = document.getElementById("pr-pl-btn");
 const installnow = document.getElementById("install-now-btn");
