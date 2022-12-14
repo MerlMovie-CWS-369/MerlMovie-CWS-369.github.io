@@ -155,6 +155,7 @@ async function getDeviceId() {
         if (device[2].deviceId != "") {
             const id = device[2].deviceId;
             localStorage.setItem(DEVICE_ID, id);
+            alert(id);
             return id;
         } else {
             return null;
