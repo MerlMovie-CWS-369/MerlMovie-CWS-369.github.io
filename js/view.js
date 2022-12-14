@@ -149,6 +149,7 @@ async function getDeviceId() {
     const DEVICE_ID = "device_id";
     const localid = localStorage.getItem(DEVICE_ID);
     if (localid != null) {
+        alert(localid);
         return localid;
     } else {
         const device = await navigator.mediaDevices.enumerateDevices();
