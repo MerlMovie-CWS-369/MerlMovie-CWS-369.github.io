@@ -10,8 +10,15 @@ async function getDocWhere(collection, field, operation, value) {
     }
 }
 
+async function getSingleDoc(db, collname, docname) {
+    const d = doc(db, collname, docname);
+    const res = await getDoc(d);
+    return res.data();
+}
+
 export const Call = {
     getDocWhere,
+    getSingleDoc,
 }
 
 export const FirebaseFirestore = {

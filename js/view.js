@@ -114,15 +114,20 @@ async function checkcanrewardcoins(app, client) {
     const deviceId = await getDeviceId();
     if (deviceId != null) {
         const db = FirebaseFirestore.getFirestore(app);
-        const col = FirebaseFirestore.collection(db, "users");
-        const res = await Call.getDocWhere(col, "server_name", "==", client);
-        if (res != null) {
-            CLIENT = res;
-            const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
-            const res2 = await Call.getDocWhere(col2, "from_id", "==", deviceId);
-            if (res2 == null) {
-                DEVICEID = deviceId;
-                return true;
+        const res = await Call.getSingleDoc(db, "app", "can_earn_coins");
+        if (res["can_earn"] == true) {
+            const col1 = FirebaseFirestore.collection(db, "users");
+            const res1 = await Call.getDocWhere(col1, "server_name", "==", client);
+            if (res1 != null) {
+                CLIENT = res1;
+                const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
+                const res2 = await Call.getDocWhere(col2, "from_id", "==", deviceId);
+                if (res2 == null) {
+                    DEVICEID = deviceId;
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
@@ -139,7 +144,7 @@ async function giftRewardToClient() {
     const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
     const d = FirebaseFirestore.doc(db, "users", CLIENT["id"]);
     await FirebaseFirestore.addDoc(col2, { "from_id": DEVICEID });
-    await FirebaseFirestore.updateDoc(d, {coins: CLIENT["coins"] += 5});
+    await FirebaseFirestore.updateDoc(d, { coins: CLIENT["coins"] += 5 });
     canReward = false;
     installbtn.style.backgroundColor = "#424242";
     await Method.pushNotification(CLIENT["id"], `Congratulation ${CLIENT['username']}! 🎉🎈`, "5 coins have been added to your account from a link you shared. Let's watch somethings!");
