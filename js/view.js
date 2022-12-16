@@ -13,8 +13,9 @@ let platformname;
 
 var canReward = false;
 
+installforplatformname();
+
 const installbtn = document.getElementById("install-btn");
-installbtn.innerText = installforplatformname();
 installbtn.onclick = () => {
     const iosStore = "https://apps.apple.com/app/id6444127460";
     const androidStore = "https://play.google.com/store/apps/details?id=com.NOUVANNET.merlmovie";
@@ -34,13 +35,13 @@ function installforplatformname() {
     var plat = Utils.installforplatform;
     if (plat == "android") {
         platformname = plat;
-        return "Install for Android"
+        installbtn.innerText = "Install for Android"
     } else if (plat == "iOS") {
         platformname = plat;
-        return "Install for iOS";
+        installbtn.innerText = "Install for iOS";
     } else {
-        platformname = plat;
-        return "Install Now";
+        platformname = "";
+        installbtn.innerText = "Install Now";
     }
 }
 
