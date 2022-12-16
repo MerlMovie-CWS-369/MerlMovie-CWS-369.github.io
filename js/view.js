@@ -13,9 +13,8 @@ let platformname;
 
 var canReward = false;
 
-installforplatformname();
-
 const installbtn = document.getElementById("install-btn");
+installforplatformname();
 installbtn.onclick = () => {
     const iosStore = "https://apps.apple.com/app/id6444127460";
     const androidStore = "https://play.google.com/store/apps/details?id=com.NOUVANNET.merlmovie";
