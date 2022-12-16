@@ -9,16 +9,41 @@ let app;
 let DATA;
 let CLIENT;
 let DEVICEID;
+let platformname;
 
 var canReward = false;
 
 const installbtn = document.getElementById("install-btn");
+installbtn.innerText = installforplatformname();
 installbtn.onclick = () => {
-    Utils.installNow();
+    const iosStore = "https://apps.apple.com/app/id6444127460";
+    const androidStore = "https://play.google.com/store/apps/details?id=com.NOUVANNET.merlmovie";
+    if (platformname == "android") {
+        window.open(androidStore, '_blank');
+    } else if (platformname == "iOS") {
+        window.open(iosStore, '_blank');
+    } else {
+        window.open(androidStore, "_blank");
+    }
     if (canReward) {
         giftRewardToClient();
     }
 };
+
+function installforplatformname() {
+    var plat = Utils.installforplatform;
+    if (plat == "android") {
+        platformname = plat;
+        return "Install for Android"
+    } else if (plat == "iOS") {
+        platformname = plat;
+        return "Install for iOS";
+    } else {
+        platformname = plat;
+        return "Install Now";
+    }
+}
+
 document.getElementById("nav-logo").onclick = () => {
     window.open('./', '_self');
 };

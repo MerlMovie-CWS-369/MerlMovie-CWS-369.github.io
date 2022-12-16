@@ -11,9 +11,7 @@ const alphabetsToNumbers = {
     "j": "9",
 };
 
-function installNow() {
-    const iosStore = "https://apps.apple.com/app/id6444127460";
-    const androidStore = "https://play.google.com/store/apps/details?id=com.NOUVANNET.merlmovie";
+function installforplatform() {
     var userAgent = window.navigator.userAgent,
         platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
@@ -22,15 +20,15 @@ function installNow() {
         os = null;
 
     if (macosPlatforms.indexOf(platform) !== -1) {
-        window.open(iosStore, "_blank");
+        return "macOS";
     } else if (iosPlatforms.indexOf(platform) !== -1) {
-        window.open(iosStore, "_blank");
+        return "iOS";
     } else if (windowsPlatforms.indexOf(platform) !== -1) {
-        window.open(androidStore, "_blank");
+        return "windows";
     } else if (/Android/.test(userAgent)) {
-        window.open(androidStore, "_blank");
+        return "android";
     } else if (/Linux/.test(platform)) {
-        window.open(androidStore, "_blank");
+        return "linux";
     }
 
     return os;
@@ -112,7 +110,7 @@ function decodeClientToServerName(client = "") {
 }
 
 const Utils = {
-    installNow,
+    installforplatform,
     decodeClientToServerName,
     getYoutubeEmbed,
     checkExpireToken,
