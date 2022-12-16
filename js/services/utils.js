@@ -16,8 +16,7 @@ function installforplatform() {
         platform = window.navigator?.userAgentData?.platform || window.navigator.platform,
         macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
         windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-        iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-        os = null;
+        iosPlatforms = ['iPhone', 'iPad', 'iPod'];
 
     if (macosPlatforms.indexOf(platform) !== -1) {
         return "macOS";
@@ -29,9 +28,9 @@ function installforplatform() {
         return "android";
     } else if (/Linux/.test(platform)) {
         return "linux";
+    } else {
+        return "unsupported platform";
     }
-
-    return os;
 }
 
 function checkExpireToken(date = '') {

@@ -24,7 +24,8 @@ installbtn.onclick = () => {
 };
 
 function installforplatformname() {
-    var plat = Utils.installforplatform;
+    var plat = Utils.installforplatform();
+    console.log(plat);
     if (plat == "android") {
         platformname = plat;
         installbtn.innerText = "Install for Android"
