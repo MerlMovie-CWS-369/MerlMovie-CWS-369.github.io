@@ -26,7 +26,9 @@ installbtn.onclick = () => {
         window.open(androidStore, "_blank");
     }
     if (canReward) {
-        giftRewardToClient();
+        if (CLIENT['premium'] == false) {
+            giftRewardToClient();
+        };
     }
 };
 
@@ -85,9 +87,15 @@ if (type == null || type == "") {
 } else if (fromClient == null || fromClient == "") {
     errorStatus.style.display = "flex";
     loadingBar.style.display = "none";
+    if (platformname == 'android') {
+        window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
+    }
 } else {
     errorStatus.style.display = "none";
     loadingBar.style.display = "flex";
+    if (platformname == 'android') {
+        window.open(`open://merlmovie/view?t=${type}&i=${postId}&f=${fromClient}`, '_self');
+    }
     initialize();
 }
 
@@ -145,11 +153,15 @@ async function checkcanrewardcoins(app, client) {
             const res1 = await Call.getDocWhere(col1, "server_name", "==", client);
             if (res1 != null) {
                 CLIENT = res1;
-                const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
-                const res2 = await Call.getDocWhere(col2, "from_id", "==", deviceId);
-                if (res2 == null) {
-                    DEVICEID = deviceId;
-                    return true;
+                if (res1['premium'] == false) {
+                    const col2 = FirebaseFirestore.collection(db, `users/${CLIENT['id']}/rewardeds_from/`);
+                    const res2 = await Call.getDocWhere(col2, "from_id", "==", deviceId);
+                    if (res2 == null) {
+                        DEVICEID = deviceId;
+                        return true;
+                    } else {
+                        return false;
+                    }
                 } else {
                     return false;
                 }
