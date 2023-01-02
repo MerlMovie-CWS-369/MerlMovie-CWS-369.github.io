@@ -87,15 +87,9 @@ if (type == null || type == "") {
 } else if (fromClient == null || fromClient == "") {
     errorStatus.style.display = "flex";
     loadingBar.style.display = "none";
-    if (platformname == 'android') {
-        window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
-    }
 } else {
     errorStatus.style.display = "none";
     loadingBar.style.display = "flex";
-    if (platformname == 'android') {
-        window.open(`open://merlmovie/view?t=${type}&i=${postId}&f=${fromClient}`, '_self');
-    }
     initialize();
 }
 
