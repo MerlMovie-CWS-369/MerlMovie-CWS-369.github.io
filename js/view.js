@@ -87,9 +87,13 @@ if (type == null || type == "") {
 } else if (fromClient == null || fromClient == "") {
     errorStatus.style.display = "flex";
     loadingBar.style.display = "none";
+    window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
 } else {
     errorStatus.style.display = "none";
     loadingBar.style.display = "flex";
+    document.getElementById('watch-now-btn').onclick = () => {
+        window.open(`open://merlmovie/view?t=${type}&i=${postId}&f=${fromClient}`, '_self');
+    };
     initialize();
 }
 
