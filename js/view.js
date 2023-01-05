@@ -68,6 +68,9 @@ const posterTitle = document.getElementById("poster-title");
 const headerInfoText = document.getElementById("header-info-text");
 const headerInfoText1 = document.getElementById("header-info-text1");
 const storyInfoText = document.getElementById("story-info-text");
+const castBtn = document.getElementById('cast-btn');
+const triggerInput = document.getElementById('trigger');
+const castList = document.getElementById("cast-list");
 
 const ymlOPtion = document.getElementById("yml-option");
 const trdOption = document.getElementById("trd-option");
@@ -87,7 +90,6 @@ if (type == null || type == "") {
 } else if (fromClient == null || fromClient == "") {
     errorStatus.style.display = "flex";
     loadingBar.style.display = "none";
-    window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
 } else {
     errorStatus.style.display = "none";
     loadingBar.style.display = "flex";
@@ -95,6 +97,12 @@ if (type == null || type == "") {
         window.open(`open://merlmovie/view?t=${type}&i=${postId}&f=${fromClient}`, '_self');
     };
     initialize();
+}
+
+if (fromClient == null || fromClient == "") {
+    if (type != null && postId != null) {
+        window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
+    }
 }
 
 function initialize() {
@@ -222,7 +230,7 @@ function checkAndRequestMovieForClient(client) {
 
                     postImage.src = result['thumbnail'];
                     posterTitle.innerText = result["post_title"];
-                    const [p, s] = result["released"].split("(");
+                    const [p, s] = `${result["released"]}`.split("(");
                     if (type == "anime") {
                         headerInfoText.innerText = `Score: ${result["rating"]} | ${p}`;
                     } else {
@@ -235,6 +243,11 @@ function checkAndRequestMovieForClient(client) {
                     loadingBar.style.display = "none";
                     bodyContainer.style.display = "inline-block";
                     bgPage.style.display = "block";
+                    if (result["cast_crew"] != [] || result['cast_crew'] != null) {
+                        castBtn.style.display = 'block';
+                        triggerInput.checked = true;
+                        createCastList(result['cast_crew']);
+                    }
                 } else {
                     errorStatus.style.display = "flex";
                     loadingBar.style.display = "none";
@@ -282,17 +295,29 @@ async function createRelatedList(items = []) {
 function createRelatedItem(map = {}) {
     const item = document.createElement("a");
     const itemType = getType(map['link']);
-    const [p, s] = map["released"].split("(");
     item.href = `./view?t=${itemType}&i=${map["post_id"]}&f=${fromClient}`;
     item.innerHTML += `<div id="related-item">
         <img id="related-poster-img" src="${map["thumbnail"]}" alt="">
         <div id="related-title-info">
            <p id="related-title">${map["post_title"]}</p>
-            <p id="related-subtitle">${p}</p>
+            <p id="related-subtitle">${map["released"]}</p>
         </div>
         </div>`;
     relatedList.appendChild(item);
+}
 
+async function createCastList(items = []) {
+    for (var i = 0; i < items.length; i++) {
+        createCastItem(items[i]);
+        await timer(50);
+    }
+}
+
+function createCastItem(map = {}) {
+    const item = document.createElement("div");
+    item.id = 'cast-item';
+    item.innerHTML += `<img src="${map['cast_picture']}" > <p>${map['cast_name']}</p>`;
+    castList.appendChild(item);
 }
 
 function getType(l = '') {
