@@ -10,29 +10,5 @@
                 "CD:7D:E6:C3:FB:AF:BA:7B:D0:8D:2A:02:86:4E:99:1A:E0:AD:A4:72:2D:09:03:9A:78:65:37:9C:97:3A:29:CE"
             ]
         }
-    },
-    {
-        "relation": [
-            "delegate_permission/common.handle_all_urls"
-        ],
-        "target": {
-            "namespace": "android_app",
-            "package_name": "com.NOUVANNET.merlmovie",
-            "sha256_cert_fingerprints": [
-                "DB:5E:93:DC:45:42:2D:77:1B:68:F7:AA:80:4B:B9:CE:C3:18:F0:D4:D7:8E:C6:EE:63:6F:55:7D:7F:A8:D9:82"
-            ]
-        }
-    },
-    {
-        "relation": [
-            "delegate_permission/common.handle_all_urls"
-        ],
-        "target": {
-            "namespace": "android_app",
-            "package_name": "com.NOUVANNET.merlmovie",
-            "sha256_cert_fingerprints": [
-                "B0:D2:B1:C9:FB:D2:4E:E8:DB:4E:40:C8:33:19:A6:3E:A4:B6:49:82:DA:92:F6:5F:29:74:73:82:FA:11:7E:D8"
-            ]
-        }
     }
 ]
