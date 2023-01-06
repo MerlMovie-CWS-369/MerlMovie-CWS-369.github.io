@@ -5,6 +5,8 @@ import { FirebaseApp } from "./firebase/firebase-app.js";
 import { FirebaseAuth } from "./firebase/firebase-auth.js";
 import { Call, FirebaseFirestore } from "./firebase/firebase-firestore.js";
 
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
 let app;
 let DATA;
 let CLIENT;
@@ -100,6 +102,11 @@ if (type == null || type == "") {
 }
 
 if (fromClient == null || fromClient == "") {
+    openapp();
+}
+
+async function openapp() {
+    await timer(800);
     if (type != null && postId != null) {
         window.open(`open://merlmovie/view?t=${type}&i=${postId}`, '_self');
     }
@@ -217,6 +224,12 @@ function checkAndRequestMovieForClient(client) {
             Method.requestMovie(token, type, postId).then((result) => {
                 if (result != null) {
                     DATA = result;
+                    document.getElementById('meta-url').setAttribute('content', window.location.toString());
+                    document.getElementById('meta-android-url').setAttribute('content', `open://merlmovie/view?${queryUrl}`);
+                    document.getElementById('meta-type').setAttribute('content', result['type']);
+                    document.getElementById('meta-title').setAttribute('content', `Watch ${result['post_title']} | MerlMovie Official Site`);
+                    document.getElementById('meta-story').setAttribute('content', result['story']);
+                    document.getElementById('meta-image').setAttribute('content', result['banner']);
                     document.getElementById("bg-img").src = result['banner'];
                     titlePage.innerText = `MerlMovie | ${result["post_title"]}`;
                     ytBanner.src = result["banner"];
@@ -281,8 +294,6 @@ trdOption.onclick = async () => {
     relatedList.style.display = "block";
     document.body.style.height = "fit-content";
 }
-
-const timer = ms => new Promise(res => setTimeout(res, ms));
 
 async function createRelatedList(items = []) {
     relatedList.style.display = 'block';
