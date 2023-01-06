@@ -225,7 +225,6 @@ function checkAndRequestMovieForClient(client) {
                 if (result != null) {
                     DATA = result;
                     document.getElementById('meta-url').setAttribute('content', window.location.toString());
-                    document.getElementById('meta-android-url').setAttribute('content', `open://merlmovie/view?${queryUrl}`);
                     document.getElementById('meta-type').setAttribute('content', result['type']);
                     document.getElementById('meta-title').setAttribute('content', `Watch ${result['post_title']} | MerlMovie Official Site`);
                     document.getElementById('meta-story').setAttribute('content', result['story']);
